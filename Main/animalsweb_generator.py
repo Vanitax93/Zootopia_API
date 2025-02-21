@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 def fetch_animal_data(animal_name, api_key):
     """Fetches animal data from API Ninjas for a given animal name."""
     api_url = f"https://api.api-ninjas.com/v1/animals?name={animal_name}"
@@ -13,6 +14,7 @@ def fetch_animal_data(animal_name, api_key):
     else:
         print(f"Error fetching data: {response.status_code} - {response.text}")
         return []
+
 
 def serialize_animal(animal_obj):
     """Serializes a single animal object into HTML."""
@@ -28,30 +30,46 @@ def serialize_animal(animal_obj):
     """
     return output
 
-def generate_html_content(animals):
-    """Generates the complete HTML string for all animals."""
+
+def generate_error_message(animal_name):
+    """Generates an HTML error message for non-existent animals."""
+    output = f"""
+    <div class="error-message">
+        <h2>The animal "{animal_name}" doesn’t exist.</h2>
+        <p>It looks like we couldn’t find any information about "{animal_name}" in our database. 
+           Maybe it’s typo? Try another name!</p>
+    </div>
+    """
+    return output
+
+
+def generate_html_content(animals, animal_name):
+    """Generates the complete HTML string, with error message if no animals found."""
+    if not animals:  # Check if the list is empty
+        return generate_error_message(animal_name)
+
     html_list = ""
     for animal in animals:
         html_list += serialize_animal(animal)
     return html_list
 
+
 def main():
     """Fetches data from API based on user input, generates HTML, and writes to a file."""
     api_key = "z1EMZU9Yktqwq35KPmNhTA==N5PxYyir0NkRNKlC"  # Your API key
+
+    # Prompt user for animal name
     animal_name = input("Enter a name of an animal: ")
+
     # Fetch data from the API
     animals_data = fetch_animal_data(animal_name, api_key)
-
-    if not animals_data:
-        print(f'Sorry, the animal "{animal_name}" doesn\'t exist in our database.')
-        return
 
     # Read the HTML template
     with open("animals_template.html", "r") as template_file:
         template_content = template_file.read()
 
-    # Generate the animal list HTML
-    animal_html_list = generate_html_content(animals_data)
+    # Generate the animal list HTML or error message
+    animal_html_list = generate_html_content(animals_data, animal_name)
 
     # Replace placeholder with generated HTML
     new_html_content = template_content.replace("__REPLACE_ANIMALS_INFO__", animal_html_list)
@@ -60,6 +78,7 @@ def main():
     with open("animals.html", "w") as output_file:
         output_file.write(new_html_content)
     print("Website was successfully generated to the file animals.html")
+
 
 if __name__ == "__main__":
     main()
