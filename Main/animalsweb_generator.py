@@ -43,7 +43,7 @@ def main():
     animals_data = fetch_animal_data(animal_name, api_key)
 
     if not animals_data:
-        print("No data to process. Exiting.")
+        print(f'Sorry, the animal "{animal_name}" doesn\'t exist in our database.')
         return
 
     # Read the HTML template
