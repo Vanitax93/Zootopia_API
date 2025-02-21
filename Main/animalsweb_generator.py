@@ -1,19 +1,5 @@
 import data_fetcher
 
-def fetch_animal_data(animal_name, api_key):
-    """Fetches animal data from API Ninjas for a given animal name."""
-    api_url = f"https://api.api-ninjas.com/v1/animals?name={animal_name}"
-    headers = {"X-Api-Key": api_key}
-
-    response = requests.get(api_url, headers=headers)
-
-    if response.status_code == 200:
-        return response.json()  # Returns a list of animal objects
-    else:
-        print(f"Error fetching data: {response.status_code} - {response.text}")
-        return []
-
-
 def serialize_animal(animal_obj):
     """Serializes a single animal object into HTML."""
     output = f"""
