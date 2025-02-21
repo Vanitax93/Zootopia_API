@@ -1,4 +1,4 @@
-import requests
+import data_fetcher
 import json
 
 
@@ -56,13 +56,11 @@ def generate_html_content(animals, animal_name):
 
 def main():
     """Fetches data from API based on user input, generates HTML, and writes to a file."""
-    api_key = "z1EMZU9Yktqwq35KPmNhTA==N5PxYyir0NkRNKlC"  # Your API key
 
     # Prompt user for animal name
     animal_name = input("Enter a name of an animal: ")
-
     # Fetch data from the API
-    animals_data = fetch_animal_data(animal_name, api_key)
+    animals_data = data_fetcher.fetch_data(animal_name)
 
     # Read the HTML template
     with open("animals_template.html", "r") as template_file:
