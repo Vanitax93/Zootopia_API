@@ -11,9 +11,8 @@ def fetch_animal_data(animal_name, api_key):
     if response.status_code == 200:
         return response.json()  # Returns a list of animal objects
     else:
-        print(f"Error fetching the data: {response.status_code} - {response.text}")
+        print(f"Error fetching data: {response.status_code} - {response.text}")
         return []
-
 
 def serialize_animal(animal_obj):
     """Serializes a single animal object into HTML."""
@@ -29,7 +28,6 @@ def serialize_animal(animal_obj):
     """
     return output
 
-
 def generate_html_content(animals):
     """Generates the complete HTML string for all animals."""
     html_list = ""
@@ -37,15 +35,15 @@ def generate_html_content(animals):
         html_list += serialize_animal(animal)
     return html_list
 
-
 def main():
-    """Fetches data from API, generates HTML, and writes to a new file."""
-    api_key = "z1EMZU9Yktqwq35KPmNhTA==N5PxYyir0NkRNKlC"
-    animal_name = "Fox"
+    """Fetches data from API based on user input, generates HTML, and writes to a file."""
+    api_key = "z1EMZU9Yktqwq35KPmNhTA==N5PxYyir0NkRNKlC"  # Your API key
+    animal_name = input("Enter a name of an animal: ")
+    # Fetch data from the API
     animals_data = fetch_animal_data(animal_name, api_key)
 
     if not animals_data:
-        print("Cannot get animals data.")
+        print("No data to process. Exiting.")
         return
 
     # Read the HTML template
@@ -61,8 +59,7 @@ def main():
     # Write to output file
     with open("animals.html", "w") as output_file:
         output_file.write(new_html_content)
-    print("HTML file generated as 'animals.html'")
-
+    print("Website was successfully generated to the file animals.html")
 
 if __name__ == "__main__":
     main()
