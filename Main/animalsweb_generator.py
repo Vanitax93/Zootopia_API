@@ -1,6 +1,4 @@
 import data_fetcher
-import json
-
 
 def fetch_animal_data(animal_name, api_key):
     """Fetches animal data from API Ninjas for a given animal name."""
